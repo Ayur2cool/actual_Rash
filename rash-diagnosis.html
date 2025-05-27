@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Rash Diagnosis</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2rem; background: #f0f4f8; text-align: center; }
+    h1 { color: #1e40af; }
+    .container { max-width: 600px; margin: auto; background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input[type='file'] { margin: 1rem 0; }
+    img { max-width: 100%; border-radius: 0.5rem; margin-top: 1rem; }
+    .footer { font-size: 0.8rem; color: gray; margin-top: 2rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>AI Rash Diagnosis</h1>
+    <input type="file" id="imageUpload" accept="image/*" />
+    <div id="previewContainer"></div>
+    <button onclick="analyzeImage()">Analyze</button>
+    <div id="result" style="margin-top: 1rem;"></div>
+    <div class="footer">
+      <p>This tool is for informational purposes only and does not provide a medical diagnosis.</p>
+    </div>
+  </div>
+
+  <script>
+    const rashes = [
+      { name: "Psoriasis", description: "An autoimmune skin condition with red, scaly patches." },
+      { name: "Eczema", description: "Red, itchy, inflamed skin. Common in children." },
+      { name: "Ringworm", description: "Fungal infection with ring-shaped red rash." }
+    ];
+
+    document.getElementById('imageUpload').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const img = document.createElement('img');
+        img.src = event.target.result;
+        img.alt = 'Uploaded rash';
+        document.getElementById('previewContainer').innerHTML = '';
+        document.getElementById('previewContainer').appendChild(img);
+      };
+      if (file) reader.readAsDataURL(file);
+    });
+
+    function analyzeImage() {
+      const prediction = rashes[Math.floor(Math.random() * rashes.length)];
+      document.getElementById('result').innerHTML =
+        '<strong>Prediction: ' + prediction.name + '</strong><p>' + prediction.description + '</p>';
+    }
+  </script>
+</body>
+</html>
